@@ -1,6 +1,7 @@
 package main
 
 import (
+	"go-crowdfunding/auth"
 	"go-crowdfunding/handler"
 	"go-crowdfunding/user"
 	"log"
@@ -19,6 +20,7 @@ func main() {
 
 	userRepository := user.NewRepository(db)
 	userService := user.NewService(userRepository)
+	authService := auth.NewService()
 
 	userHandler := handler.NewUserHandler(userService)
 
