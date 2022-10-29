@@ -155,8 +155,10 @@ func (h *userHandler) UploadAvatar(c *gin.Context) {
 		return
 	}
 
-	// hardcode for test, next we will use JWT
-	userID := 1
+	// Ambil nilai Set yg sudah ditulis pada func authMiddleware => "currentUser"
+	// MustGet() mengembalikan interface{} / any sementara Set authMiddleware tipenya user.User maka perlu dikonversi
+	currentUser := c.MustGet("currentUser").(user.User)
+	userID := currentUser.ID
 
 	path := fmt.Sprintf("images/%d-%s", userID, file.Filename)
 

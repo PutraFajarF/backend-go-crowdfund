@@ -89,7 +89,7 @@ func authMiddleware(authService auth.Service, userService user.Service) gin.Hand
 			return
 		}
 
-		// set context yg isinya user
+		// set context yg isinya user dan akan dipakai pada user handler func AvatarUpload
 		c.Set("currentUser", user)
 	}
 }
