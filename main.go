@@ -34,6 +34,8 @@ func main() {
 	campaignHandler := handler.NewCampaignHandler(campaignService)
 
 	router := gin.Default()
+	// untuk setting routing akses file gambar oleh client, parameter pertama relative path (akses URL) dan kedua root folder nya
+	router.Static("/images", "./images")
 	// api versioning
 	api := router.Group("/api/v1")
 	api.POST("/users", userHandler.RegisterUser)
