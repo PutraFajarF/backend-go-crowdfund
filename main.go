@@ -34,3 +34,10 @@ func main() {
 
 	router.Run()
 }
+
+// ambil nilai header Authorization: Bearer tokentokentoken
+// dari header Authorization, kita ambil nilai tokennya saja
+// kita validasi token
+// ambil user_id
+// ambil user dari db berdasarkan user_id lewat service
+// set context isinya user
