@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"go-crowdfunding/auth"
 	"go-crowdfunding/handler"
 	"go-crowdfunding/user"
@@ -21,6 +22,23 @@ func main() {
 	userRepository := user.NewRepository(db)
 	userService := user.NewService(userRepository)
 	authService := auth.NewService()
+
+	token, err := authService.ValidateToken("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo1fQ.gZAWIleWYmCey9G7SbLvMDDqZ7u4VoeaYFACyfspK6U")
+	if err != nil {
+		fmt.Println("ERROR")
+		fmt.Println("ERROR")
+		fmt.Println("ERROR")
+	}
+
+	if token.Valid {
+		fmt.Println("VALID")
+		fmt.Println("VALID")
+		fmt.Println("VALID")
+	} else {
+		fmt.Println("INVALID")
+		fmt.Println("INVALID")
+		fmt.Println("INVALID")
+	}
 
 	userHandler := handler.NewUserHandler(userService, authService)
 
