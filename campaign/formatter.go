@@ -92,6 +92,7 @@ func FormatCampaignDetail(campaign Campaign) CampaignDetailFormatter {
 
 	campaignDetailFormatter.Perks = perks
 
+	// tambah formatter user
 	user := campaign.User
 
 	campaignUserFormatter := CampaignUserFormatter{}
@@ -100,6 +101,7 @@ func FormatCampaignDetail(campaign Campaign) CampaignDetailFormatter {
 
 	campaignDetailFormatter.User = campaignUserFormatter
 
+	// tambah formatter images
 	images := []CampaignImageFormatter{}
 
 	for _, image := range campaign.CampaignImages {
