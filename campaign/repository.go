@@ -9,6 +9,7 @@ type Repository interface {
 	Save(campaign Campaign) (Campaign, error)
 	Update(campaign Campaign) (Campaign, error)
 	CreateImage(campaignImage CampaignImage) (CampaignImage, error)
+	MarkAllImagesAsNonPrimary(campaignID int) (bool, error)
 }
 
 type repository struct {
@@ -79,4 +80,15 @@ func (r *repository) CreateImage(campaignImage CampaignImage) (CampaignImage, er
 	}
 
 	return campaignImage, nil
+}
+
+func (r *repository) MarkAllImagesAsNonPrimary(campaignID int) (bool, error) {
+	// Query yg dijalankan pada fungsi ini => UPDATE campaign_images SET is_primary = false WHERE campaign_id = 1
+	err := r.db.Model(&CampaignImage{}).Where("campaign_id = ?", campaignID).Update("is_primary", false).Error
+
+	if err != nil {
+		return false, err
+	}
+
+	return true, nil
 }
