@@ -159,8 +159,11 @@ func (h *campaignHandler) UploadImage(c *gin.Context) {
 	err := c.ShouldBind(&input)
 
 	if err != nil {
-		response := helper.APIResponse("Failed to upload campaign image", http.StatusBadRequest, "error", nil)
-		c.JSON(http.StatusBadRequest, response)
+		errors := helper.FormatValidationError(err)
+		errorMessage := gin.H{"errors": errors}
+
+		response := helper.APIResponse("Failed to upload image campaign", http.StatusUnprocessableEntity, "error", errorMessage)
+		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
 
