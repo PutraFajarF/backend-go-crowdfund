@@ -1,6 +1,7 @@
 package campaign
 
 import (
+	"errors"
 	"fmt"
 
 	"github.com/gosimple/slug"
@@ -77,6 +78,12 @@ func (s *service) UpdateCampaign(input GetCampaignDetailInput, inputData CreateC
 	campaign, err := s.repository.FindByID(input.ID)
 	if err != nil {
 		return campaign, err
+	}
+
+	// disini inputData sudah ada nilai usernya dari handler
+	// Perlu passing currentUser, agar bisa lakukan pengecekan siapa user yg melakukan update campaign
+	if campaign.UserID != inputData.User.ID {
+		return campaign, errors.New("Not an owner of the campaign")
 	}
 
 	// mapping berdasarkan struct CreateCampaignInput

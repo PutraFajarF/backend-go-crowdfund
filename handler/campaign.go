@@ -128,6 +128,10 @@ func (h *campaignHandler) UpdateCampaign(c *gin.Context) {
 		return
 	}
 
+	// ambil data user dari middleware, untuk mengetahui siapa user yg inputData
+	currentUser := c.MustGet("currentUser").(user.User)
+	inputData.User = currentUser
+
 	newUpdatedCampaign, err := h.service.UpdateCampaign(inputID, inputData)
 	if err != nil {
 		response := helper.APIResponse("Failed to update campaign", http.StatusBadRequest, "error", nil)
