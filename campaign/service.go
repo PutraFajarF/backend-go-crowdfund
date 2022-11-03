@@ -103,6 +103,18 @@ func (s *service) UpdateCampaign(input GetCampaignDetailInput, inputData CreateC
 }
 
 func (s *service) SaveCampaignImage(input CreateCampaignImageInput, fileLocation string) (CampaignImage, error) {
+	// ambil data berdasarkan struct yg udah dibuat uri (struct GetCampaignDetailInput)
+	campaign, err := s.repository.FindByID(input.CampaignID)
+	if err != nil {
+		return CampaignImage{}, err
+	}
+
+	// disini inputData sudah ada nilai usernya dari handler
+	// Perlu passing currentUser, agar bisa lakukan pengecekan siapa user yg melakukan update campaign
+	if campaign.UserID != input.User.ID {
+		return CampaignImage{}, errors.New("Not an owner of the campaign")
+	}
+
 	isPrimary := 0
 	if input.IsPrimary {
 		isPrimary = 1
