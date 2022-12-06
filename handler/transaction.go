@@ -46,3 +46,10 @@ func (h *transactionHandler) GetCampaignTransactions(c *gin.Context) {
 	response := helper.APIResponse("Campaign transactions", http.StatusOK, "success", transaction.FormatCampaignTransactions(transactions))
 	c.JSON(http.StatusOK, response)
 }
+
+// flow GetUserTransactions
+// Perlu diketahui siapa user yg login
+// handler -> ambil nilai user dari jwt/middleware -> didapatkan userID
+// service
+// repository -> ambil data transactions dan preload data campaign karena pada JSON yg ingin ditampilkan tdk hanya data transaction
+// namun data nama campaign dan image campaign yg terkait dgn Transactions tersebut
