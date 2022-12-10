@@ -33,7 +33,8 @@ func (r *repository) GetByUserID(userID int) ([]Transaction, error) {
 	// Flownya dari transaction -> relasi ke campaign -> relasi ke campaignImages
 	// Caranya Preload("Campaign.CampaignImages", "campaign_images.is_primary = 1") -> load campaign dan dari campaign akan load campaignImages yg berelasi dengan campaign
 	// batasi dari campaignImages yg diload hanya is_primary = 1
-	err := r.db.Preload("Campaign.CampaignImages", "campaign_images.is_primary = 1").Where("user_id = ?", userID).Find(&transaction).Error
+	// order data response json berdasarkan id desc => id transaksi terakhir berada diatas
+	err := r.db.Preload("Campaign.CampaignImages", "campaign_images.is_primary = 1").Where("user_id = ?", userID).Order("id desc").Find(&transaction).Error
 	if err != nil {
 		return transaction, err
 	}
