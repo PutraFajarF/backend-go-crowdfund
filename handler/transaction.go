@@ -53,3 +53,18 @@ func (h *transactionHandler) GetCampaignTransactions(c *gin.Context) {
 // service
 // repository -> ambil data transactions dan preload data campaign karena pada JSON yg ingin ditampilkan tdk hanya data transaction
 // namun data nama campaign dan image campaign yg terkait dgn Transactions tersebut
+func (h *transactionHandler) GetUserTransactions(c *gin.Context) {
+	// ambil data currentUser dan ubah datanya ke user.User
+	currentUser := c.MustGet("currentUser").(user.User)
+	userID := currentUser.ID
+
+	transactions, err := h.service.GetTransactionsByUserID(userID)
+	if err != nil {
+		response := helper.APIResponse("Failed to get user's transactions", http.StatusBadRequest, "error", nil)
+		c.JSON(http.StatusBadRequest, response)
+		return
+	}
+
+	response := helper.APIResponse("User's transactions", http.StatusOK, "success", transactions)
+	c.JSON(http.StatusOK, response)
+}
